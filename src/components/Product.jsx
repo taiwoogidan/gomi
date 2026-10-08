@@ -51,27 +51,37 @@ export default function Product() {
             {/* =====================================================
                 TYPICAL AI
             ===================================================== */}
-
             <div className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.025] p-7 sm:p-9">
+              {/* Soft glow */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute right-[-100px] top-[-100px] h-[250px] w-[250px] rounded-full bg-white/[0.03] blur-[100px]"
               />
 
               <div className="relative">
+                {/* Header */}
                 <div className="flex items-start justify-between gap-4">
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[11px] font-bold tracking-[0.18em] text-gray-500">
                       TYPICAL AI
                     </p>
 
-                    <h3 className="mt-3 text-2xl font-semibold tracking-tight text-gray-200 sm:text-3xl">
-                      Ask
-                      <span className="mx-2 text-gray-600">→</span>
-                      Answer
-                      <span className="mx-2 text-gray-600">→</span>
-                      Move on
-                    </h3>
+                    {/* Flow */}
+                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-2xl font-semibold tracking-tight text-gray-200 sm:text-3xl">
+                      <span className="whitespace-nowrap">Ask</span>
+
+                      <span aria-hidden="true" className="text-gray-600">
+                        →
+                      </span>
+
+                      <span className="whitespace-nowrap">Answer</span>
+
+                      <span aria-hidden="true" className="text-gray-600">
+                        →
+                      </span>
+
+                      <span className="whitespace-nowrap">Move on</span>
+                    </div>
                   </div>
 
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.04] text-gray-500">
@@ -81,11 +91,13 @@ export default function Product() {
 
                 <div className="my-7 h-px bg-white/[0.07]" />
 
+                {/* Points */}
                 <ul className="space-y-5">
                   <li className="flex gap-4">
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[9px] text-gray-500">
                       <FontAwesomeIcon icon={faArrowRight} />
                     </span>
+
                     <span className="text-sm leading-6 text-gray-400">
                       Gives you the solution
                     </span>
@@ -95,6 +107,7 @@ export default function Product() {
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[9px] text-gray-500">
                       <FontAwesomeIcon icon={faArrowRight} />
                     </span>
+
                     <span className="text-sm leading-6 text-gray-400">
                       Often explains after the fact
                     </span>
@@ -104,6 +117,7 @@ export default function Product() {
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[9px] text-gray-500">
                       <FontAwesomeIcon icon={faArrowRight} />
                     </span>
+
                     <span className="text-sm leading-6 text-gray-400">
                       Doesn't remember what you struggle with
                     </span>
@@ -113,6 +127,7 @@ export default function Product() {
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/[0.06] text-[9px] text-gray-500">
                       <FontAwesomeIcon icon={faArrowRight} />
                     </span>
+
                     <span className="text-sm leading-6 text-gray-400">
                       Mostly passive learning
                     </span>
@@ -124,7 +139,6 @@ export default function Product() {
             {/* =====================================================
                 GOMI
             ===================================================== */}
-
             <div className="group relative overflow-hidden rounded-3xl border border-green-400/20 bg-gradient-to-br from-green-400/[0.09] via-white/[0.025] to-transparent p-7 shadow-[0_0_80px_rgba(74,222,128,0.05)] sm:p-9">
               {/* Glow */}
               <div
@@ -157,17 +171,23 @@ export default function Product() {
                     A different way to learn
                   </p>
 
-                  <h3 className="flex flex-wrap items-center gap-x-2 gap-y-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                    <span>Explore</span>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                    <span className="whitespace-nowrap">Explore</span>
 
-                    <span className="text-green-400/70">→</span>
+                    <span aria-hidden="true" className="text-green-400/70">
+                      →
+                    </span>
 
-                    <span>Practice</span>
+                    <span className="whitespace-nowrap">Practice</span>
 
-                    <span className="text-green-400/70">→</span>
+                    <span aria-hidden="true" className="text-green-400/70">
+                      →
+                    </span>
 
-                    <span className="text-green-400">Understand</span>
-                  </h3>
+                    <span className="whitespace-nowrap text-green-400">
+                      Understand
+                    </span>
+                  </div>
                 </div>
 
                 {/* Divider */}
