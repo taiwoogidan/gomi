@@ -134,7 +134,7 @@ export default function Download() {
                 </p>
 
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">
-                  GoMi for iPhone
+                  GoMi for MacOS
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-gray-500">
@@ -148,7 +148,7 @@ export default function Download() {
               >
                 <span className="flex items-center gap-2">
                   <FontAwesomeIcon icon={faArrowDown} className="text-xs" />
-                  Download for iOS
+                  Download for MacOS
                 </span>
 
                 <FontAwesomeIcon
