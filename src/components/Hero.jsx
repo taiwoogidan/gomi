@@ -1,4 +1,4 @@
-import heroImage from "../assets/hero.jpg";
+import heroImage from "../assets/gomi.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
