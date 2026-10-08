@@ -141,7 +141,7 @@ export default function Hero() {
             </div>
 
             {/* Image */}
-            <div className="overflow-hidden rounded-xl border border-white/[0.06] sm:rounded-2xl">
+            <div className="overflow-hidden rounded-xl border border-white/[0.06] sm:rounded-2xl shadow-green-500 shadow-xl">
               <img
                 src={heroImage}
                 alt="GoMi AI learning workspace"
