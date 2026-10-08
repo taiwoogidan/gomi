@@ -12,7 +12,7 @@ export default function Header() {
   const navLinks = [
     { label: "Product", href: "#product" },
     { label: "How it works", href: "#how-it-works" },
-    { label: "What you can do", href: "#features" },
+    { label: "What you can do", href: "#what-you-can-do" },
     { label: "Privacy", href: "#privacy" },
   ];
 
@@ -48,7 +48,7 @@ export default function Header() {
         {/* Desktop CTA */}
         <div className="hidden md:block">
           <a
-            href="#product"
+            href="#how-it-works"
             className="group flex items-center gap-2 rounded-full bg-gray-950 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-800 bg-green-500"
           >
             Explore GoMi
