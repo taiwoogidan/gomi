@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="bg-black text-white">
       <Header />
-      <main className="w-[95%] mx-auto">
+      <main className="w-[100%] mx-auto">
         <Hero />
         <Product />
         <HowItWorks />
