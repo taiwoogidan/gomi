@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -8,9 +10,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function HowItWorks() {
+  const shouldReduceMotion = useReducedMotion();
+
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === "undefined") return true;
-
     return localStorage.getItem("gomi-theme") !== "light";
   });
 
@@ -20,10 +23,8 @@ export default function HowItWorks() {
       setIsDark(document.documentElement.classList.contains("dark"));
     };
 
-    // Read the current theme when the component mounts.
     syncTheme();
 
-    // Watch for the Header changing the root "dark" class.
     const observer = new MutationObserver(syncTheme);
 
     observer.observe(document.documentElement, {
@@ -31,7 +32,6 @@ export default function HowItWorks() {
       attributeFilter: ["class"],
     });
 
-    // Also support theme changes from another browser tab.
     const handleStorage = (event) => {
       if (event.key === "gomi-theme") {
         syncTheme();
@@ -79,6 +79,32 @@ export default function HowItWorks() {
 
   const numberColor = isDark ? "text-gray-600" : "text-gray-400";
 
+  // Reusable reveal animation.
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 28,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.65,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  // Reveal children sequentially.
+  const staggerContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.15,
+      },
+    },
+  };
+
   return (
     <section
       id="how-it-works"
@@ -103,48 +129,89 @@ export default function HowItWorks() {
 
       <div className="mx-auto max-w-7xl px-5 sm:px-7 lg:px-8">
         {/* Section heading */}
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-xs font-bold tracking-[0.18em] text-green-500">
+        <motion.div
+          className="mx-auto max-w-3xl text-center"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+        >
+          <motion.p
+            variants={fadeUp}
+            className="mb-4 text-xs font-bold tracking-[0.18em] text-green-500"
+          >
             HOW GOMI WORKS
-          </p>
+          </motion.p>
 
-          <h2
+          <motion.h2
+            variants={fadeUp}
             className={`text-3xl font-semibold tracking-[-0.035em] ${headingColor} sm:text-4xl lg:text-5xl`}
           >
-            Your learning,{" "}
+            Your learning{" "}
             <span className="bg-gradient-to-r from-current via-gray-400 to-green-500 bg-clip-text text-transparent">
               connected.
             </span>
-          </h2>
+          </motion.h2>
 
-          <p
+          <motion.p
+            variants={fadeUp}
             className={`mx-auto mt-5 max-w-2xl text-sm leading-7 ${bodyColor} sm:text-base sm:leading-8`}
           >
             Keep the conversation, study materials, practice tools, and project
             progress together instead of piecing a study session across separate
             apps.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Steps */}
         <div className="relative mx-auto mt-16 max-w-6xl lg:mt-20">
           {/* Connecting line on large screens */}
-          <div
+          <motion.div
             aria-hidden="true"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.9,
+              delay: shouldReduceMotion ? 0 : 0.2,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            style={{ transformOrigin: "left" }}
             className={`absolute left-[16.66%] right-[16.66%] top-8 hidden h-px bg-gradient-to-r from-transparent to-transparent lg:block ${
               isDark ? "via-green-400/30" : "via-green-500/40"
             }`}
           />
 
-          <div className="grid gap-5 lg:grid-cols-3">
+          <motion.div
+            className="grid gap-5 lg:grid-cols-3"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.2 }}
+          >
             {steps.map((step) => (
-              <div
+              <motion.div
                 key={step.number}
-                className={`group relative overflow-hidden rounded-3xl border p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 sm:p-8 ${cardStyle}`}
+                variants={fadeUp}
+                whileHover={
+                  shouldReduceMotion
+                    ? undefined
+                    : {
+                        y: -6,
+                        transition: { duration: 0.25 },
+                      }
+                }
+                className={`group relative overflow-hidden rounded-3xl border p-7 backdrop-blur-sm transition-colors duration-300 sm:p-8 ${cardStyle}`}
               >
                 {/* Number and icon */}
                 <div className="relative z-10 mb-8 flex items-center justify-between">
-                  <div
+                  <motion.div
+                    whileHover={
+                      shouldReduceMotion
+                        ? undefined
+                        : { rotate: 5, scale: 1.06 }
+                    }
+                    transition={{ duration: 0.2 }}
                     className={`flex h-16 w-16 items-center justify-center rounded-2xl border border-green-500/20 bg-green-500/[0.08] text-green-500 transition-all duration-300 group-hover:bg-green-500/[0.14] ${
                       isDark
                         ? "shadow-[0_0_35px_rgba(74,222,128,0.06)] group-hover:shadow-[0_0_40px_rgba(74,222,128,0.12)]"
@@ -152,7 +219,7 @@ export default function HowItWorks() {
                     }`}
                   >
                     <FontAwesomeIcon icon={step.icon} className="text-lg" />
-                  </div>
+                  </motion.div>
 
                   <span
                     className={`text-sm font-semibold tracking-widest ${numberColor}`}
@@ -185,15 +252,21 @@ export default function HowItWorks() {
                 {/* Hover glow */}
                 <div
                   aria-hidden="true"
-                  className={`pointer-events-none absolute inset-0 -z-0 rounded-3xl bg-gradient-to-br from-green-400/[0.06] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+                  className="pointer-events-none absolute inset-0 -z-0 rounded-3xl bg-gradient-to-br from-green-400/[0.06] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 />
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom statement */}
-        <div className="mx-auto mt-14 flex max-w-xl items-center justify-center gap-3 text-center">
+        <motion.div
+          className="mx-auto mt-14 flex max-w-xl items-center justify-center gap-3 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.6 }}
+          variants={fadeUp}
+        >
           <span
             className={`h-px flex-1 bg-gradient-to-r from-transparent ${
               isDark ? "to-white/[0.08]" : "to-gray-200"
@@ -209,7 +282,7 @@ export default function HowItWorks() {
               isDark ? "to-white/[0.08]" : "to-gray-200"
             }`}
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

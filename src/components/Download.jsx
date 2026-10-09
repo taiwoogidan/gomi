@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faWindows,
@@ -8,6 +9,8 @@ import {
 import { faArrowDown, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export default function Download() {
+  const shouldReduceMotion = useReducedMotion();
+
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === "undefined") return true;
     return localStorage.getItem("gomi-theme") !== "light";
@@ -40,6 +43,41 @@ export default function Download() {
     };
   }, []);
 
+  // Animation variants
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 28,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.65,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.16,
+      },
+    },
+  };
+
+  const cardContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.18,
+        delayChildren: shouldReduceMotion ? 0 : 0.1,
+      },
+    },
+  };
+
   const headingColor = isDark ? "text-white" : "text-gray-950";
   const bodyColor = isDark ? "text-gray-400" : "text-gray-600";
   const mutedColor = isDark ? "text-gray-500" : "text-gray-500";
@@ -65,7 +103,6 @@ export default function Download() {
       icon: faLinux,
       buttonText: "Download for Linux",
       format: "AppImage · Linux",
-      primary: false,
     },
     {
       name: "macOS",
@@ -74,7 +111,6 @@ export default function Download() {
       icon: faApple,
       buttonText: "Download for macOS",
       format: "macOS · Desktop",
-      primary: false,
     },
   ];
 
@@ -82,17 +118,24 @@ export default function Download() {
     "https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/releases/latest";
 
   const renderSecondaryCard = (platform) => (
-    <div
+    <motion.div
       key={platform.name}
-      className={`group relative overflow-hidden rounded-3xl border p-7 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${secondaryCard}`}
+      variants={fadeUp}
+      whileHover={shouldReduceMotion ? undefined : { y: -6 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className={`group relative overflow-hidden rounded-3xl border p-7 transition-colors duration-500 sm:p-8 ${secondaryCard}`}
     >
       <div className="relative">
         <div className="flex items-start justify-between">
-          <div
+          <motion.div
+            whileHover={
+              shouldReduceMotion ? undefined : { rotate: 5, scale: 1.06 }
+            }
+            transition={{ duration: 0.25 }}
             className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-colors duration-300 ${secondaryIcon}`}
           >
             <FontAwesomeIcon icon={platform.icon} className="text-lg" />
-          </div>
+          </motion.div>
         </div>
 
         <div className="mt-9">
@@ -134,7 +177,7 @@ export default function Download() {
           {platform.format}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
@@ -160,9 +203,18 @@ export default function Download() {
       />
 
       <div className="mx-auto max-w-6xl px-5 sm:px-7 lg:px-8">
-        {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 flex items-center justify-center gap-3">
+        {/* Header animation */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <motion.div
+            variants={fadeUp}
+            className="mb-6 flex items-center justify-center gap-3"
+          >
             <span className="h-px w-8 bg-green-500/50" />
 
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-green-500">
@@ -170,9 +222,10 @@ export default function Download() {
             </p>
 
             <span className="h-px w-8 bg-green-500/50" />
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            variants={fadeUp}
             className={`text-4xl font-semibold leading-[1.05] tracking-[-0.05em] sm:text-5xl lg:text-6xl ${headingColor}`}
           >
             Learn on{" "}
@@ -185,21 +238,31 @@ export default function Download() {
             >
               your terms.
             </span>
-          </h2>
+          </motion.h2>
 
-          <p
+          <motion.p
+            variants={fadeUp}
             className={`mx-auto mt-6 max-w-2xl text-sm leading-7 sm:text-base sm:leading-8 ${bodyColor}`}
           >
             Bring GoMi to your favorite platform and keep your learning
             workspace close, focused, and yours.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Download cards */}
-        <div className="mt-16 grid gap-5 md:grid-cols-3 lg:mt-20">
+        {/* Download cards animation */}
+        <motion.div
+          variants={cardContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          className="mt-16 grid gap-5 md:grid-cols-3 lg:mt-20"
+        >
           {/* Windows — primary card */}
-          <div
-            className={`group relative overflow-hidden rounded-3xl border p-7 transition-all duration-500 hover:-translate-y-1 sm:p-8 ${
+          <motion.div
+            variants={fadeUp}
+            whileHover={shouldReduceMotion ? undefined : { y: -6 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`group relative overflow-hidden rounded-3xl border p-7 transition-colors duration-500 sm:p-8 ${
               isDark
                 ? "border-green-400/25 bg-gradient-to-b from-green-400/[0.08] via-white/[0.025] to-transparent shadow-[0_0_80px_rgba(74,222,128,0.045)] hover:border-green-400/40"
                 : "border-green-500/30 bg-gradient-to-b from-green-50 via-white to-white shadow-[0_0_60px_rgba(34,197,94,0.06)] hover:border-green-500/50"
@@ -214,9 +277,15 @@ export default function Download() {
 
             <div className="relative">
               <div className="flex items-start justify-between">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-green-500/20 bg-green-500/[0.08] text-green-500">
+                <motion.div
+                  whileHover={
+                    shouldReduceMotion ? undefined : { rotate: -5, scale: 1.06 }
+                  }
+                  transition={{ duration: 0.25 }}
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl border border-green-500/20 bg-green-500/[0.08] text-green-500"
+                >
                   <FontAwesomeIcon icon={faWindows} className="text-lg" />
-                </div>
+                </motion.div>
 
                 <span className="rounded-full border border-green-500/20 bg-green-500/[0.08] px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-green-600">
                   Desktop
@@ -243,7 +312,7 @@ export default function Download() {
                 href={githubReleases}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/button mt-8 flex w-full items-center justify-between rounded-xl bg-green-500 px-4 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-green-400"
+                className="group/button mt-8 flex w-full items-center justify-between rounded-xl bg-green-500 px-4 py-3.5 text-sm font-semibold text-black transition-colors duration-300 hover:bg-green-400"
               >
                 <span className="flex items-center gap-2">
                   <FontAwesomeIcon icon={faArrowDown} className="text-xs" />
@@ -260,23 +329,29 @@ export default function Download() {
                 Windows 10 or later
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* macOS */}
           {renderSecondaryCard(platforms[1])}
 
           {/* Linux */}
           {renderSecondaryCard(platforms[0])}
-        </div>
+        </motion.div>
 
-        {/* Bottom note */}
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 text-center sm:flex-row">
+        {/* Bottom note animation */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.6 }}
+          className="mt-10 flex flex-col items-center justify-center gap-3 text-center sm:flex-row"
+        >
           <span className="h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(74,222,128,0.6)]" />
 
           <p className={`text-xs ${subtleColor}`}>
             Choose your platform. Download GoMi. Start learning.
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
